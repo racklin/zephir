@@ -78,4 +78,23 @@ class Pregmatch
         public function testPregMatch5Params(var pattern, var subject, var matches, var flags, var offset) {
             return preg_match(pattern, subject, matches, flags, offset);
         }
+
+        public function testMatchAll(flags)
+        {
+            var text, matches;
+            let text = "test1,test2";
+            preg_match_all("/(test[0-9]+)/", text, matches, flags);
+            return matches;
+        }
+
+        public function testMatchAllInZep()
+        {
+            var m1, m2;
+            let m1 = this->testMatchAll(PREG_PATTERN_ORDER);
+            let m2 = this->testMatchAll(PREG_SET_ORDER);
+
+            print_r(m1);
+            print_r(m2);
+        }
 }
+

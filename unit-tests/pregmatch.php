@@ -40,3 +40,4 @@ $match6 = null;
 assert($t->testPregMatch3Params("/M(.*)/", $string2, $match6));
 assert(count($match6) == 2);
 
+$t->testMatchAllInZep();

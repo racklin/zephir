@@ -15,6 +15,7 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/fcall.h"
 
 
 ZEPHIR_INIT_CLASS(Test_Pregmatch) {
@@ -164,6 +165,46 @@ PHP_METHOD(Test_Pregmatch, testPregMatch5Params) {
 
 	zephir_preg_match(return_value, &(return_value), pattern, subject, matches, 0, zephir_get_intval(flags) , zephir_get_intval(offset)  TSRMLS_CC);
 	return;
+
+}
+
+PHP_METHOD(Test_Pregmatch, testMatchAll) {
+
+	zval *flags, *text, *matches, *_0, _1;
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &flags);
+
+
+
+	ZEPHIR_INIT_VAR(text);
+	ZVAL_STRING(text, "test1,test2", 1);
+	ZEPHIR_INIT_VAR(matches);
+	ZEPHIR_INIT_VAR(_0);
+	ZEPHIR_SINIT_VAR(_1);
+	ZVAL_STRING(&_1, "/(test[0-9]+)/", 0);
+	zephir_preg_match(_0, &(_0), &_1, text, matches, 1, zephir_get_intval(flags) , 0  TSRMLS_CC);
+	RETURN_CCTOR(matches);
+
+}
+
+PHP_METHOD(Test_Pregmatch, testMatchAllInZep) {
+
+	zval *m1, *m2, *_0;
+
+	ZEPHIR_MM_GROW();
+
+	ZEPHIR_INIT_VAR(_0);
+	ZVAL_LONG(_0, 1);
+	ZEPHIR_INIT_VAR(m1);
+	zephir_call_method_p1(m1, this_ptr, "testmatchall", _0);
+	ZEPHIR_INIT_BNVAR(_0);
+	ZVAL_LONG(_0, 2);
+	ZEPHIR_INIT_VAR(m2);
+	zephir_call_method_p1(m2, this_ptr, "testmatchall", _0);
+	zephir_call_func_p1_noret("print_r", m1);
+	zephir_call_func_p1_noret("print_r", m2);
+	ZEPHIR_MM_RESTORE();
 
 }
 
